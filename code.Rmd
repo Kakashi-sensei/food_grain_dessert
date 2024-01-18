@@ -479,7 +479,7 @@ df$EID <- as.factor(df$EID)
 results <- data.frame()
 # List of variables to test
 
-test_vars <- c()
+test_vars <- c("SlicedBread_mean", "Baguette_mean", "Bap_mean", "Breadroll_mean", "Naanbread_mean", "Garlicbread_mean", "Crispbread_mean", "Oatcakes_mean", "Otherbread_mean", "NumberofsliceswithButt_mean", "NumberbaguettewithButt_mean", "NumberbapwithButt_mean", "NumberbreadrollwithButt_mean", "NumbercrackerwithButt_mean", "NumberoatcakewithButt_mean", "NumberOthbreadwithButt_mean", "DoubleCrustPastry_mean", "SingleCrustPastry_mean", "Crumble_mean", "Pizza_mean", "Pancake_mean", "ScotchPancake_mean", "YorkshirePudd_mean", "IndiaSnack_mean", "Croissant_mean", "DanishPastry_mean", "Scone_mean", "Yogurt_mean", "Icecream_mean", "MilkPuddin_mean", "OthMilkPuddin_mean", "Soya_mean", "Fruitcake_mean", "Cake_mean", "Doughnut_mean", "Spongepuddin_mean", "Cheesecake_mean", "Othdessert_mean", "Chocolatebar_mean", "WhiteChocolate_mean", "MilkChocolate_mean", "DarkChocolate_mean", "ChocolateRaisin_mean", "Chocolatesweet_mean", "Dietsweet_mean", "Sweets_mean", "ChocolateCoverBiscuit_mean", "ChocolateBiscuit_mean", "SweetBiscuit_mean", "CerealBar_mean", "OthSweet_mean", "SaltPeanut_mean", "Peanut_mean", "SaltNut_mean", "Nut_mean", "Seeds_mean", "Crisp_mean", "SavouryBiscuit_mean", "CheesyBiscuit_mean", "Olives_mean", "OthSavoury_mean", "InstantSoup_mean", "CannnedSoup_mean", "HomeSoup_mean", "WhitePasta_mean", "WholemealPasta_mean", "WhiteRice_mean", "BrownRice_mean", "Sushi_mean", "Snackpot_mean", "Couscous_mean", "OthGrain_mean", "breadnobutt_mean", "breadWithButt_mean", "breadall", "pie_mean", "dessert_mean", "sweet_mean", "savoury_mean", "soup_mean", "starchy_mean")
 
 dependent_vars <- c("rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21")
 
@@ -511,14 +511,14 @@ for (dep_var in dependent_vars) {
                                          p_value = p_value))
   }
 }
-write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\continuous\\maineffect.csv",na='',row.names=FALSE)
+write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\grain_dessert\\maineffect.csv",na='',row.names=FALSE)
 rm(list=ls())
 ```
 
 ```{r}
 #interaction test for all continuous data
 library(lmerTest)
-df<-read.csv(file = 'C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\updated\\food_continuous.csv')
+df<-read.csv(file = 'C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\food_grain_dessert.csv')
 
 # Fit the model -- factor all factor variables
 factor_vars <- c("AlcoholY08", "SmokingY08", "Assessment_0", "EID")
@@ -528,11 +528,7 @@ for (var in factor_vars) {
 rm(factor_vars,var)
 
 # Scale all continuous variables
-scale_vars <- c("Energy_mean", "Protein_mean", "Fat_mean", "Carbohydrate_mean", "SaturateFat_mean", 
-               "PolyunsaturatFat_mean", "Sugars_mean", "EnglystDietaryFibre_mean", "Iron_mean", "VB6_mean", 
-               "VB12_mean", "Folate_mean", "VC_mean", "Potassium_mean", "Magnesium_mean", "Retinol_mean", 
-               "Carotene_mean", "VD_mean", "Alcohol_continuous_mean", "Starch_mean", "Calcium_mean", "VE_mean", 
-               "rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21", "Age_Baseline", "BMI_Y08andY12andY14_mean")
+scale_vars <- c("SlicedBread_mean", "Baguette_mean", "Bap_mean", "Breadroll_mean", "Naanbread_mean", "Garlicbread_mean", "Crispbread_mean", "Oatcakes_mean", "Otherbread_mean", "NumberofsliceswithButt_mean", "NumberbaguettewithButt_mean", "NumberbapwithButt_mean", "NumberbreadrollwithButt_mean", "NumbercrackerwithButt_mean", "NumberoatcakewithButt_mean", "NumberOthbreadwithButt_mean", "DoubleCrustPastry_mean", "SingleCrustPastry_mean", "Crumble_mean", "Pizza_mean", "Pancake_mean", "ScotchPancake_mean", "YorkshirePudd_mean", "IndiaSnack_mean", "Croissant_mean", "DanishPastry_mean", "Scone_mean", "Yogurt_mean", "Icecream_mean", "MilkPuddin_mean", "OthMilkPuddin_mean", "Soya_mean", "Fruitcake_mean", "Cake_mean", "Doughnut_mean", "Spongepuddin_mean", "Cheesecake_mean", "Othdessert_mean", "Chocolatebar_mean", "WhiteChocolate_mean", "MilkChocolate_mean", "DarkChocolate_mean", "ChocolateRaisin_mean", "Chocolatesweet_mean", "Dietsweet_mean", "Sweets_mean", "ChocolateCoverBiscuit_mean", "ChocolateBiscuit_mean", "SweetBiscuit_mean", "CerealBar_mean", "OthSweet_mean", "SaltPeanut_mean", "Peanut_mean", "SaltNut_mean", "Nut_mean", "Seeds_mean", "Crisp_mean", "SavouryBiscuit_mean", "CheesyBiscuit_mean", "Olives_mean", "OthSavoury_mean", "InstantSoup_mean", "CannnedSoup_mean", "HomeSoup_mean", "WhitePasta_mean", "WholemealPasta_mean", "WhiteRice_mean", "BrownRice_mean", "Sushi_mean", "Snackpot_mean", "Couscous_mean", "OthGrain_mean", "breadnobutt_mean", "breadWithButt_mean", "breadall", "pie_mean", "dessert_mean", "sweet_mean", "savoury_mean", "soup_mean", "starchy_mean", "rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21", "Age_Baseline", "BMI_Y08andY12andY14_mean")
 
 for (var in scale_vars) {
   df[[var]] <- as.numeric(df[[var]])
@@ -543,10 +539,7 @@ rm(scale_vars, var)
 dependent_vars <- c("rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21")
 
 # List of variables to test
-test_vars <- c("Energy_mean", "Protein_mean", "Fat_mean", "Carbohydrate_mean", "SaturateFat_mean", 
-               "PolyunsaturatFat_mean", "Sugars_mean", "EnglystDietaryFibre_mean", "Iron_mean", "VB6_mean", 
-               "VB12_mean", "Folate_mean", "VC_mean", "Potassium_mean", "Magnesium_mean", "Retinol_mean", 
-               "Carotene_mean", "VD_mean", "Alcohol_continuous_mean", "Starch_mean", "Calcium_mean", "VE_mean")
+test_vars <- c("SlicedBread_mean", "Baguette_mean", "Bap_mean", "Breadroll_mean", "Naanbread_mean", "Garlicbread_mean", "Crispbread_mean", "Oatcakes_mean", "Otherbread_mean", "NumberofsliceswithButt_mean", "NumberbaguettewithButt_mean", "NumberbapwithButt_mean", "NumberbreadrollwithButt_mean", "NumbercrackerwithButt_mean", "NumberoatcakewithButt_mean", "NumberOthbreadwithButt_mean", "DoubleCrustPastry_mean", "SingleCrustPastry_mean", "Crumble_mean", "Pizza_mean", "Pancake_mean", "ScotchPancake_mean", "YorkshirePudd_mean", "IndiaSnack_mean", "Croissant_mean", "DanishPastry_mean", "Scone_mean", "Yogurt_mean", "Icecream_mean", "MilkPuddin_mean", "OthMilkPuddin_mean", "Soya_mean", "Fruitcake_mean", "Cake_mean", "Doughnut_mean", "Spongepuddin_mean", "Cheesecake_mean", "Othdessert_mean", "Chocolatebar_mean", "WhiteChocolate_mean", "MilkChocolate_mean", "DarkChocolate_mean", "ChocolateRaisin_mean", "Chocolatesweet_mean", "Dietsweet_mean", "Sweets_mean", "ChocolateCoverBiscuit_mean", "ChocolateBiscuit_mean", "SweetBiscuit_mean", "CerealBar_mean", "OthSweet_mean", "SaltPeanut_mean", "Peanut_mean", "SaltNut_mean", "Nut_mean", "Seeds_mean", "Crisp_mean", "SavouryBiscuit_mean", "CheesyBiscuit_mean", "Olives_mean", "OthSavoury_mean", "InstantSoup_mean", "CannnedSoup_mean", "HomeSoup_mean", "WhitePasta_mean", "WholemealPasta_mean", "WhiteRice_mean", "BrownRice_mean", "Sushi_mean", "Snackpot_mean", "Couscous_mean", "OthGrain_mean", "breadnobutt_mean", "breadWithButt_mean", "breadall", "pie_mean", "dessert_mean", "sweet_mean", "savoury_mean", "soup_mean", "starchy_mean")
 
 # List of factors
 factor_vars <- c("APOE_all", "T40_Gcar", "family_history_AD")
@@ -586,7 +579,7 @@ for(factor_var in factor_vars) {
     }
   }
 }
-write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\continuous\\interactions.csv",na='',row.names=FALSE)
+write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\grain_dessert\\interactions.csv",na='',row.names=FALSE)
 rm(list=ls())
 ```
 
