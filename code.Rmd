@@ -189,10 +189,6 @@ for (var in variables) {
 }
 rm(cols, suffix, var, variables, bread_variables, nubread_variables, pie_variables, dessert_variables, sweet_variables, savoury_variables, soup_variables, starchy_variables, cvariables)
 
-
-
-
-
 # merge variables
 # 1. merge bread:
 bread_vars <- c("SlicedBread", "Baguette", "Bap", "Breadroll", "Naanbread", "Garlicbread", "Crispbread", "Oatcakes", "Otherbread")
@@ -240,7 +236,7 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of breadWithButt
-df$breadnobutt_mean <- apply(df[, paste("breadWithButt", suffixes, sep="_")], 1, function(x) {
+df$breadWithButt_mean <- apply(df[, paste("breadWithButt", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
@@ -268,7 +264,7 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of breadall
-df$breadnobutt_mean <- apply(df[, paste("breadall", suffixes, sep="_")], 1, function(x) {
+df$breadall <- apply(df[, paste("breadall", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
@@ -296,14 +292,13 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of pie
-df$breadnobutt_mean <- apply(df[, paste("pie", suffixes, sep="_")], 1, function(x) {
+df$pie_mean <- apply(df[, paste("pie", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
       return(mean(x, na.rm = TRUE))
     }
   })
-
 
 # Remove pie_* columns
 df <- df[ , !(names(df) %in% paste("pie", suffixes, sep="_"))]
@@ -325,14 +320,13 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of dessert
-df$breadnobutt_mean <- apply(df[, paste("dessert", suffixes, sep="_")], 1, function(x) {
+df$dessert_mean <- apply(df[, paste("dessert", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
       return(mean(x, na.rm = TRUE))
     }
   })
-
 
 # Remove dessert_* columns
 df <- df[ , !(names(df) %in% paste("dessert", suffixes, sep="_"))]
@@ -354,14 +348,13 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of sweet
-df$breadnobutt_mean <- apply(df[, paste("sweet", suffixes, sep="_")], 1, function(x) {
+df$sweet_mean <- apply(df[, paste("sweet", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
       return(mean(x, na.rm = TRUE))
     }
   })
-
 
 # Remove sweet_* columns
 df <- df[ , !(names(df) %in% paste("sweet", suffixes, sep="_"))]
@@ -383,14 +376,13 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of savoury
-df$breadnobutt_mean <- apply(df[, paste("savoury", suffixes, sep="_")], 1, function(x) {
+df$savoury_mean <- apply(df[, paste("savoury", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
       return(mean(x, na.rm = TRUE))
     }
   })
-
 
 # Remove savoury_* columns
 df <- df[ , !(names(df) %in% paste("savoury", suffixes, sep="_"))]
@@ -412,14 +404,13 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of soup
-df$breadnobutt_mean <- apply(df[, paste("soup", suffixes, sep="_")], 1, function(x) {
+df$soup_mean <- apply(df[, paste("soup", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
       return(mean(x, na.rm = TRUE))
     }
   })
-
 
 # Remove soup_* columns
 df <- df[ , !(names(df) %in% paste("soup", suffixes, sep="_"))]
@@ -441,7 +432,7 @@ for(suffix in suffixes) {
 }
 
 # Calculate row mean of starchy
-df$breadnobutt_mean <- apply(df[, paste("starchy", suffixes, sep="_")], 1, function(x) {
+df$starchy_mean <- apply(df[, paste("starchy", suffixes, sep="_")], 1, function(x) {
     if (all(is.na(x))) {
       return(NA)
     } else {
@@ -453,11 +444,150 @@ df$breadnobutt_mean <- apply(df[, paste("starchy", suffixes, sep="_")], 1, funct
 df <- df[ , !(names(df) %in% paste("starchy", suffixes, sep="_"))]
 rm(columns, starchy_vars, new_column, suffix)
 
+base_names <- c("SlicedBread", "Baguette", "Bap", "Breadroll", "Naanbread", "Garlicbread", "Crispbread", "Oatcakes", "Otherbread", "NumberofsliceswithButt", "NumberbaguettewithButt", "NumberbapwithButt", "NumberbreadrollwithButt", "NumbercrackerwithButt", "NumberoatcakewithButt", "NumberOthbreadwithButt", "DoubleCrustPastry", "SingleCrustPastry", "Crumble", "Pizza", "Pancake", "ScotchPancake", "YorkshirePudd", "IndiaSnack", "Croissant", "DanishPastry", "Scone", "Yogurt", "Icecream", "MilkPuddin", "OthMilkPuddin", "Soya", "Fruitcake", "Cake", "Doughnut", "Spongepuddin", "Cheesecake", "Othdessert", "Chocolatebar", "WhiteChocolate", "MilkChocolate", "DarkChocolate", "ChocolateRaisin", "Chocolatesweet", "Dietsweet", "Sweets", "ChocolateCoverBiscuit", "ChocolateBiscuit", "SweetBiscuit", "CerealBar", "OthSweet", "SaltPeanut", "Peanut", "SaltNut", "Nut", "Seeds", "Crisp", "SavouryBiscuit", "CheesyBiscuit", "Olives", "OthSavoury", "InstantSoup", "CannnedSoup", "HomeSoup", "WhitePasta", "WholemealPasta", "WhiteRice", "BrownRice", "Sushi", "Snackpot", "Couscous", "OthGrain", "Bread", "Butteronbread", "Yogurt_IcecreamConsum", "DessertConsum", "SweetsnackConsum", "Savoury", "SoupConsum", "StarchyConsum")
+
+# Suffix for each variable
+suffix <- c("_1.0", "_2.0", "_3.0", "_4.0", "_0.0")
+
+# Generate the full column names
+columns_to_remove <- outer(base_names, suffix, paste0)
+
+# Flatten the matrix to a vector
+columns_to_remove <- c(columns_to_remove)
+
+# Remove the columns
+df <- df[ , !(names(df) %in% columns_to_remove)]
+
 write.csv(df, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\food_grain_dessert.csv",na='',row.names=FALSE)
 rm(list=ls())
 ```
 
 ```{r}
-# remove all variables with _4.0, and the like
+# test
+# maineffects for grain dessert data
+library(lmerTest)
+df<-read.csv(file = 'C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\food_grain_dessert.csv')
+# Fit the model
+df$APOE_all <- as.factor(df$APOE_all)
+df$T40_Gcar <- as.factor(df$T40_Gcar)
+df$family_history_AD <- as.factor(df$family_history_AD)
+df$Sex <- as.factor(df$Sex)
+df$AlcoholY08 <- as.factor(df$AlcoholY08)
+df$SmokingY08 <- as.factor(df$SmokingY08)
+df$Assessment_0 <- as.factor(df$Assessment_0)
+df$EID <- as.factor(df$EID)
+results <- data.frame()
+# List of variables to test
+
+test_vars <- c()
+
+dependent_vars <- c("rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21")
+
+# Double loop through each dependent and test variable and fit the model
+for (dep_var in dependent_vars) {
+  for (test_var in test_vars) {
+  
+    # Construct the formula
+    formula <- as.formula(paste(dep_var, "~ APOE_all + T40_Gcar + family_history_AD + Age_Baseline + Sex + 
+                               BMI_Y08andY12andY14_mean + AlcoholY08 + SmokingY08 + Townsend +", test_var, "+ 
+                               (1 | Assessment_0)"))
+  
+    # Fit the model
+    model <- lmer(formula, data = df, REML=FALSE)
+    
+   # Get the summary
+    model_summary <- summary(model)
+    
+    # Extract the results for the test variable
+    estimate <- model_summary$coefficients[test_var, "Estimate"]
+    std_error <- model_summary$coefficients[test_var, "Std. Error"]
+    p_value <- model_summary$coefficients[test_var, "Pr(>|t|)"]
+    
+    # Add the results to the data frame
+    results <- rbind(results, data.frame(Dependent_Variable = dep_var,
+                                         Test_Variable = test_var,
+                                         Estimate = estimate,
+                                         Std_Error = std_error,
+                                         p_value = p_value))
+  }
+}
+write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\continuous\\maineffect.csv",na='',row.names=FALSE)
+rm(list=ls())
+```
+
+```{r}
+#interaction test for all continuous data
+library(lmerTest)
+df<-read.csv(file = 'C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\updated\\food_continuous.csv')
+
+# Fit the model -- factor all factor variables
+factor_vars <- c("AlcoholY08", "SmokingY08", "Assessment_0", "EID")
+for (var in factor_vars) {
+  df[[var]] <- as.factor(df[[var]])
+}
+rm(factor_vars,var)
+
+# Scale all continuous variables
+scale_vars <- c("Energy_mean", "Protein_mean", "Fat_mean", "Carbohydrate_mean", "SaturateFat_mean", 
+               "PolyunsaturatFat_mean", "Sugars_mean", "EnglystDietaryFibre_mean", "Iron_mean", "VB6_mean", 
+               "VB12_mean", "Folate_mean", "VC_mean", "Potassium_mean", "Magnesium_mean", "Retinol_mean", 
+               "Carotene_mean", "VD_mean", "Alcohol_continuous_mean", "Starch_mean", "Calcium_mean", "VE_mean", 
+               "rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21", "Age_Baseline", "BMI_Y08andY12andY14_mean")
+
+for (var in scale_vars) {
+  df[[var]] <- as.numeric(df[[var]])
+}
+rm(scale_vars, var)
+
+# Define the dependent variables
+dependent_vars <- c("rsfMRI_Component1", "rsfMRI_Component2",	"rsfMRI_Component3", "rsfMRI_Component4","rsfMRI_Component5", "rsfMRI_Component6", "rsfMRI_Component7", "rsfMRI_Component8", "rsfMRI_Component9", "rsfMRI_Component10", "rsfMRI_Component11", "rsfMRI_Component12", "rsfMRI_Component13", "rsfMRI_Component14", "rsfMRI_Component15", "rsfMRI_Component16", "rsfMRI_Component17",	"rsfMRI_Component18",	"rsfMRI_Component19", "rsfMRI_Component20", "rsfMRI_Component21")
+
+# List of variables to test
+test_vars <- c("Energy_mean", "Protein_mean", "Fat_mean", "Carbohydrate_mean", "SaturateFat_mean", 
+               "PolyunsaturatFat_mean", "Sugars_mean", "EnglystDietaryFibre_mean", "Iron_mean", "VB6_mean", 
+               "VB12_mean", "Folate_mean", "VC_mean", "Potassium_mean", "Magnesium_mean", "Retinol_mean", 
+               "Carotene_mean", "VD_mean", "Alcohol_continuous_mean", "Starch_mean", "Calcium_mean", "VE_mean")
+
+# List of factors
+factor_vars <- c("APOE_all", "T40_Gcar", "family_history_AD")
+
+# Initialize a results data frame
+results <- data.frame()
+
+# Loop over each dependent variable
+for(factor_var in factor_vars) {
+ for (dep_var in dependent_vars) {
+  for (test_var in test_vars) {
+      
+    # Construct the formula
+    formula <- as.formula(paste(dep_var, "~ APOE_all + T40_Gcar + family_history_AD + Age_Baseline + Sex + 
+                               BMI_Y08andY12andY14_mean + AlcoholY08 + SmokingY08 + Townsend +",test_var,"+", factor_var, ":", test_var, "+ 
+                               (1 | Assessment_0)"))
+  
+    # Fit the model
+    model <- lmer(formula, data = df, REML=FALSE)
+
+ # Get the summary
+    model_summary <- summary(model)
+   
+    # Extract the results for the interaction term
+    interaction_term <- paste(factor_var, test_var, sep=":")
+    estimate <- model_summary$coefficients[interaction_term, "Estimate"]
+    std_error <- model_summary$coefficients[interaction_term, "Std. Error"]
+    p_value <- model_summary$coefficients[interaction_term, "Pr(>|t|)"]
+
+    # Add the results to the data frame
+    results <- rbind(results, data.frame(Dependent_Variable = dep_var,
+                                         Factors = factor_var,
+                                         Test_Variable = test_var,
+                                         Estimate = estimate,
+                                         Std_Error = std_error,
+                                         P_Value = p_value))
+    }
+  }
+}
+write.csv(results, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\output\\continuous\\interactions.csv",na='',row.names=FALSE)
+rm(list=ls())
+```
 
 
