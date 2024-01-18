@@ -1,0 +1,463 @@
+---
+title: "code"
+author: "Tim"
+date: "2024-01-14"
+output: html_document
+---
+
+```{r}
+#add all ICs
+library(dplyr)
+rawdata <- read.csv(file = 'C:/Users/timothy/Documents/GWAS_data/dairy/IGF1data.csv')
+dataa <- rawdata %>%
+  select(eid, rsfMRI_Component2,	rsfMRI_Component3, rsfMRI_Component4,	rsfMRI_Component6,rsfMRI_Component8,rsfMRI_Component11, rsfMRI_Component12,	rsfMRI_Component15,	rsfMRI_Component16,	rsfMRI_Component17,	rsfMRI_Component18,	rsfMRI_Component19, rsfMRI_Component21
+)
+colnames(dataa)[1]<-"EID"
+datab <-read.csv(file = 'C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\food_grain_dessert.csv')
+df<-merge(dataa,datab,by="EID")
+rm(dataa)
+rm(datab)
+rm(rawdata)
+# remove invalid values
+# wanted variables
+bread_variables <- c("SlicedBread_1.0", "SlicedBread_2.0", "SlicedBread_3.0", "SlicedBread_4.0", "SlicedBread_0.0",
+                     "Baguette_1.0", "Baguette_2.0", "Baguette_3.0", "Baguette_4.0", "Baguette_0.0", 
+                     "Bap_1.0", "Bap_2.0", "Bap_3.0", "Bap_4.0", "Bap_0.0", "Breadroll_1.0", "Breadroll_2.0", 
+                     "Breadroll_3.0", "Breadroll_4.0", "Breadroll_0.0", "Naanbread_1.0", "Naanbread_2.0", 
+                     "Naanbread_3.0", "Naanbread_4.0", "Naanbread_0.0", "Garlicbread_1.0", "Garlicbread_2.0", 
+                     "Garlicbread_3.0", "Garlicbread_4.0", "Garlicbread_0.0", "Crispbread_1.0", "Crispbread_2.0", 
+                     "Crispbread_3.0", "Crispbread_4.0", "Crispbread_0.0", "Oatcakes_1.0", "Oatcakes_2.0", 
+                     "Oatcakes_3.0", "Oatcakes_4.0", "Oatcakes_0.0", "Otherbread_1.0", "Otherbread_2.0", 
+                     "Otherbread_3.0", "Otherbread_4.0", "Otherbread_0.0")
+
+nubread_variables <- c("NumberofsliceswithButt_1.0", "NumberofsliceswithButt_2.0", "NumberofsliceswithButt_3.0", 
+                       "NumberofsliceswithButt_4.0", "NumberofsliceswithButt_0.0", "NumberbaguettewithButt_1.0", 
+                       "NumberbaguettewithButt_2.0", "NumberbaguettewithButt_3.0", "NumberbaguettewithButt_4.0", 
+                       "NumberbaguettewithButt_0.0", "NumberbapwithButt_1.0", "NumberbapwithButt_2.0", 
+                       "NumberbapwithButt_3.0", "NumberbapwithButt_4.0", "NumberbapwithButt_0.0", 
+                       "NumberbreadrollwithButt_1.0", "NumberbreadrollwithButt_2.0", "NumberbreadrollwithButt_3.0", 
+                       "NumberbreadrollwithButt_4.0", "NumberbreadrollwithButt_0.0", "NumbercrackerwithButt_1.0", 
+                       "NumbercrackerwithButt_2.0", "NumbercrackerwithButt_3.0", "NumbercrackerwithButt_4.0", 
+                       "NumbercrackerwithButt_0.0", "NumberoatcakewithButt_1.0", "NumberoatcakewithButt_2.0", 
+                       "NumberoatcakewithButt_3.0", "NumberoatcakewithButt_4.0", "NumberoatcakewithButt_0.0", 
+                       "NumberOthbreadwithButt_1.0", "NumberOthbreadwithButt_2.0", "NumberOthbreadwithButt_3.0", 
+                       "NumberOthbreadwithButt_4.0", "NumberOthbreadwithButt_0.0")
+
+pie_variables <- c("DoubleCrustPastry_1.0", "DoubleCrustPastry_2.0", "DoubleCrustPastry_3.0", "DoubleCrustPastry_4.0", "DoubleCrustPastry_0.0",
+                   "SingleCrustPastry_1.0", "SingleCrustPastry_2.0", "SingleCrustPastry_3.0", "SingleCrustPastry_4.0", "SingleCrustPastry_0.0",
+                   "Crumble_1.0", "Crumble_2.0", "Crumble_3.0", "Crumble_4.0", "Crumble_0.0", 
+                   "Pizza_1.0", "Pizza_2.0", "Pizza_3.0", "Pizza_4.0", "Pizza_0.0",
+                   "Pancake_1.0","Pancake_2.0","Pancake_3.0","Pancake_4.0","Pancake_0.0",
+                   "ScotchPancake_1.0","ScotchPancake_2.0","ScotchPancake_3.0","ScotchPancake_4.0","ScotchPancake_0.0",
+                   "YorkshirePudd_1.0","YorkshirePudd_2.0","YorkshirePudd_3.0","YorkshirePudd_4.0","YorkshirePudd_0.0",
+                   "IndiaSnack_1.0","IndiaSnack_2.0","IndiaSnack_3.0","IndiaSnack_4.0","IndiaSnack_0.0",
+                   "Croissant_1.0","Croissant_2.0","Croissant_3.0","Croissant_4.0","Croissant_0.0",
+                   "DanishPastry_1.0","DanishPastry_2.0","DanishPastry_3.0","DanishPastry_4.0","DanishPastry_0.0",
+                   "Scone_1.0","Scone_2.0","Scone_3.0","Scone_4.0","Scone_0.0")
+
+dessert_variables <- c("Yogurt_1.0", "Yogurt_2.0", "Yogurt_3.0", "Yogurt_4.0", "Yogurt_0.0", 
+                       "Icecream_1.0", "Icecream_2.0", "Icecream_3.0", "Icecream_4.0", "Icecream_0.0",
+                       "MilkPuddin_1.0", "MilkPuddin_2.0", "MilkPuddin_3.0", "MilkPuddin_4.0", "MilkPuddin_0.0",
+                       "OthMilkPuddin_1.0", "OthMilkPuddin_2.0", "OthMilkPuddin_3.0", "OthMilkPuddin_4.0", "OthMilkPuddin_0.0", 
+                       "Soya_1.0", "Soya_2.0", "Soya_3.0", "Soya_4.0", "Soya_0.0", 
+                       "Fruitcake_1.0", "Fruitcake_2.0", "Fruitcake_3.0", "Fruitcake_4.0", "Fruitcake_0.0", 
+                       "Cake_1.0", "Cake_2.0", "Cake_3.0", "Cake_4.0", "Cake_0.0", 
+                       "Doughnut_1.0", "Doughnut_2.0", "Doughnut_3.0", "Doughnut_4.0", "Doughnut_0.0", 
+                       "Spongepuddin_1.0", "Spongepuddin_2.0", "Spongepuddin_3.0", "Spongepuddin_4.0", "Spongepuddin_0.0", 
+                       "Cheesecake_1.0", "Cheesecake_2.0", "Cheesecake_3.0", "Cheesecake_4.0", "Cheesecake_0.0", 
+                       "Othdessert_1.0", "Othdessert_2.0", "Othdessert_3.0", "Othdessert_4.0", "Othdessert_0.0")
+
+sweet_variables <- c("Chocolatebar_1.0", "Chocolatebar_2.0", "Chocolatebar_3.0", "Chocolatebar_4.0", "Chocolatebar_0.0", 
+                     "WhiteChocolate_1.0", "WhiteChocolate_2.0", "WhiteChocolate_3.0", "WhiteChocolate_4.0", "WhiteChocolate_0.0", 
+                     "MilkChocolate_1.0", "MilkChocolate_2.0", "MilkChocolate_3.0", "MilkChocolate_4.0", "MilkChocolate_0.0", 
+                     "DarkChocolate_1.0", "DarkChocolate_2.0", "DarkChocolate_3.0", "DarkChocolate_4.0", "DarkChocolate_0.0", 
+                     "ChocolateRaisin_1.0", "ChocolateRaisin_2.0", "ChocolateRaisin_3.0", "ChocolateRaisin_4.0", "ChocolateRaisin_0.0",
+                     "Chocolatesweet_1.0", "Chocolatesweet_2.0", "Chocolatesweet_3.0", "Chocolatesweet_4.0", "Chocolatesweet_0.0", 
+                     "Dietsweet_1.0", "Dietsweet_2.0", "Dietsweet_3.0", "Dietsweet_4.0", "Dietsweet_0.0", 
+                     "Sweets_1.0", "Sweets_2.0", "Sweets_3.0", "Sweets_4.0", "Sweets_0.0", 
+                     "ChocolateCoverBiscuit_1.0", "ChocolateCoverBiscuit_2.0", "ChocolateCoverBiscuit_3.0", "ChocolateCoverBiscuit_4.0", "ChocolateCoverBiscuit_0.0", 
+                     "ChocolateBiscuit_1.0", "ChocolateBiscuit_2.0", "ChocolateBiscuit_3.0", "ChocolateBiscuit_4.0", "ChocolateBiscuit_0.0",
+                     "SweetBiscuit_1.0", "SweetBiscuit_2.0", "SweetBiscuit_3.0", "SweetBiscuit_4.0", "SweetBiscuit_0.0", 
+                     "CerealBar_1.0", "CerealBar_2.0", "CerealBar_3.0", "CerealBar_4.0", "CerealBar_0.0", 
+                     "OthSweet_1.0", "OthSweet_2.0", "OthSweet_3.0", "OthSweet_4.0", "OthSweet_0.0")
+
+savoury_variables <- c("SaltPeanut_1.0", "SaltPeanut_2.0", "SaltPeanut_3.0", "SaltPeanut_4.0", "SaltPeanut_0.0", 
+                       "Peanut_1.0", "Peanut_2.0", "Peanut_3.0", "Peanut_4.0", "Peanut_0.0", 
+                       "SaltNut_1.0", "SaltNut_2.0", "SaltNut_3.0", "SaltNut_4.0", "SaltNut_0.0", 
+                       "Nut_1.0", "Nut_2.0", "Nut_3.0", "Nut_4.0", "Nut_0.0", 
+                       "Seeds_1.0", "Seeds_2.0", "Seeds_3.0", "Seeds_4.0", "Seeds_0.0", 
+                       "Crisp_1.0", "Crisp_2.0", "Crisp_3.0", "Crisp_4.0", "Crisp_0.0", 
+                       "SavouryBiscuit_1.0", "SavouryBiscuit_2.0", "SavouryBiscuit_3.0", "SavouryBiscuit_4.0", "SavouryBiscuit_0.0", 
+                       "CheesyBiscuit_1.0", "CheesyBiscuit_2.0", "CheesyBiscuit_3.0", "CheesyBiscuit_4.0", "CheesyBiscuit_0.0", 
+                       "Olives_1.0", "Olives_2.0", "Olives_3.0", "Olives_4.0", "Olives_0.0", 
+                       "OthSavoury_1.0", "OthSavoury_2.0", "OthSavoury_3.0", "OthSavoury_4.0", "OthSavoury_0.0")
+
+soup_variables <- c("InstantSoup_1.0", "InstantSoup_2.0", "InstantSoup_3.0", "InstantSoup_4.0", "InstantSoup_0.0", 
+                    "CannnedSoup_1.0", "CannnedSoup_2.0", "CannnedSoup_3.0", "CannnedSoup_4.0", "CannnedSoup_0.0", 
+                    "HomeSoup_1.0", "HomeSoup_2.0", "HomeSoup_3.0", "HomeSoup_4.0", "HomeSoup_0.0")
+
+starchy_variables <- c("WhitePasta_1.0", "WhitePasta_2.0", "WhitePasta_3.0", "WhitePasta_4.0", "WhitePasta_0.0", 
+                       "WholemealPasta_1.0", "WholemealPasta_2.0", "WholemealPasta_3.0", "WholemealPasta_4.0", "WholemealPasta_0.0", 
+                       "WhiteRice_1.0", "WhiteRice_2.0", "WhiteRice_3.0", "WhiteRice_4.0", "WhiteRice_0.0", 
+                       "BrownRice_1.0", "BrownRice_2.0", "BrownRice_3.0", "BrownRice_4.0", "BrownRice_0.0", 
+                       "Sushi_1.0", "Sushi_2.0", "Sushi_3.0", "Sushi_4.0", "Sushi_0.0", 
+                       "Snackpot_1.0", "Snackpot_2.0", "Snackpot_3.0", "Snackpot_4.0", "Snackpot_0.0", 
+                       "Couscous_1.0", "Couscous_2.0", "Couscous_3.0", "Couscous_4.0", "Couscous_0.0", 
+                       "OthGrain_1.0", "OthGrain_2.0", "OthGrain_3.0", "OthGrain_4.0", "OthGrain_0.0")
+# consumption variables (can be only 0 or 1)
+cvariables <- c("Bread_1.0", "Bread_2.0", "Bread_3.0", "Bread_4.0", "Bread_0.0", "Butteronbread_1.0", "Butteronbread_2.0", "Butteronbread_3.0", "Butteronbread_4.0", "Butteronbread_0.0", "Yogurt_IcecreamConsum_1.0", "Yogurt_IcecreamConsum_2.0", "Yogurt_IcecreamConsum_3.0", "Yogurt_IcecreamConsum_4.0", "Yogurt_IcecreamConsum_0.0", "DessertConsum_1.0", "DessertConsum_2.0", "DessertConsum_3.0", "DessertConsum_4.0", "DessertConsum_0.0", "SweetsnackConsum_1.0", "SweetsnackConsum_2.0", "SweetsnackConsum_3.0", "SweetsnackConsum_4.0", "SweetsnackConsum_0.0", "Savoury_1.0", "Savoury_2.0", "Savoury_3.0", "Savoury_4.0", "Savoury_0.0", "SoupConsum_1.0", "SoupConsum_2.0", "SoupConsum_3.0", "SoupConsum_4.0", "SoupConsum_0.0", "StarchyConsum_1.0", "StarchyConsum_2.0", "StarchyConsum_3.0", "StarchyConsum_4.0", "StarchyConsum_0.0")
+# define valid values
+valid_bread_values <- c(1, 2, 3, 4, 5, 600, 555)
+valid_pie_values <- c(1, 2, 3, 400, 555)
+valid_dessert_values <- c(1, 2, 300, 555)
+valid_sweet_values <- c(1, 2, 3, 4, 500, 444, 555)
+valid_savoury_values <- c(1, 2, 300, 555)
+valid_soup_values <- c(1, 2, 3, 400, 555)
+valid_starchy_values <- c(1,200, 555)
+valid_cvalues <- c(0, 1)
+# only keep valid values for wanted variables
+df[, bread_variables] <- lapply(df[, bread_variables], function(x) ifelse(x %in% valid_bread_values, x, NA))
+
+df[, nubread_variables] <- lapply(df[, nubread_variables], function(x) ifelse(x %in% valid_bread_values, x, NA))
+df[, pie_variables] <- lapply(df[, pie_variables], function(x) ifelse(x %in% valid_pie_values, x, NA))
+df[, dessert_variables] <- lapply(df[, dessert_variables], function(x) ifelse(x %in% valid_dessert_values, x, NA))
+df[, sweet_variables] <- lapply(df[, sweet_variables], function(x) ifelse(x %in% valid_sweet_values, x, NA))
+df[, savoury_variables] <- lapply(df[, savoury_variables], function(x) ifelse(x %in% valid_savoury_values, x, NA))
+df[, soup_variables] <- lapply(df[, soup_variables], function(x) ifelse(x %in% valid_soup_values, x, NA))
+df[, starchy_variables] <- lapply(df[, starchy_variables], function(x) ifelse(x %in% valid_starchy_values, x, NA))
+df[, cvariables] <- lapply(df[, cvariables], function(x) ifelse(x %in% valid_cvalues, x, NA))
+# replace values
+df[, bread_variables] <- lapply(df[, bread_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 600, 6, x)
+    x
+})
+df[, nubread_variables] <- lapply(df[, nubread_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 600, 6, x)
+    x
+})
+df[, pie_variables] <- lapply(df[, pie_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 400, 4, x)
+    x
+})
+df[, dessert_variables] <- lapply(df[, dessert_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 300, 3, x)
+    x
+})
+df[, sweet_variables] <- lapply(df[, sweet_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 500, 5, x)
+    x <- ifelse(x == 444, 0.25, x)
+    x
+})
+df[, savoury_variables] <- lapply(df[, savoury_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 300, 3, x)
+    x
+})
+df[, soup_variables] <- lapply(df[, soup_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 400, 4, x)
+    x
+})
+df[, starchy_variables] <- lapply(df[, starchy_variables], function(x) { 
+    x <- ifelse(x == 555, 0.5, x) 
+    x <- ifelse(x == 200, 2, x)
+    x
+})
+
+
+rm(valid_bread_values, valid_pie_values,valid_dessert_values, valid_sweet_values, valid_savoury_values, valid_soup_values, valid_starchy_values, valid_cvalues)
+
+# List of variables
+variables <- c("SlicedBread", "Baguette", "Bap", "Breadroll", "Naanbread", "Garlicbread", "Crispbread", "Oatcakes", "Otherbread", "NumberofsliceswithButt", "NumberbaguettewithButt", "NumberbapwithButt", "NumberbreadrollwithButt", "NumbercrackerwithButt", "NumberoatcakewithButt", "NumberOthbreadwithButt", "DoubleCrustPastry", "SingleCrustPastry", "Crumble", "Pizza", "Pancake", "ScotchPancake", "YorkshirePudd", "IndiaSnack", "Croissant", "DanishPastry", "Scone", "Yogurt", "Icecream", "MilkPuddin", "OthMilkPuddin", "Soya", "Fruitcake", "Cake", "Doughnut", "Spongepuddin", "Cheesecake", "Othdessert", "Chocolatebar", "WhiteChocolate", "MilkChocolate", "DarkChocolate", "ChocolateRaisin", "Chocolatesweet", "Dietsweet", "Sweets", "ChocolateCoverBiscuit", "ChocolateBiscuit", "SweetBiscuit", "CerealBar", "OthSweet", "SaltPeanut", "Peanut", "SaltNut", "Nut", "Seeds", "Crisp", "SavouryBiscuit", "CheesyBiscuit", "Olives", "OthSavoury", "InstantSoup", "CannnedSoup", "HomeSoup", "WhitePasta", "WholemealPasta", "WhiteRice", "BrownRice", "Sushi", "Snackpot", "Couscous", "OthGrain")
+
+# Suffix for each variable
+suffix <- c("_1.0", "_2.0", "_3.0", "_4.0", "_0.0")
+# Loop through all variables
+for (var in variables) {
+  # Generate the column names for each variable
+  cols <- paste0(var, suffix)
+  # Check if columns exist in the dataframe
+  if (all(cols %in% colnames(df))) {
+    # Calculate the mean
+    df[[paste0(var, "_mean")]] <- rowMeans(df[, cols], na.rm = TRUE)
+  }
+}
+rm(cols, suffix, var, variables, bread_variables, nubread_variables, pie_variables, dessert_variables, sweet_variables, savoury_variables, soup_variables, starchy_variables, cvariables)
+
+
+
+
+
+# merge variables
+# 1. merge bread:
+bread_vars <- c("SlicedBread", "Baguette", "Bap", "Breadroll", "Naanbread", "Garlicbread", "Crispbread", "Oatcakes", "Otherbread")
+suffixes <- c("1.0", "2.0", "3.0", "4.0", "0.0")
+
+# calculate bread_* variables
+for(suffix in suffixes) {
+  columns <- paste(bread_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("breadnobutt", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of bread
+df$breadnobutt_mean <- apply(df[, paste("breadnobutt", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+# Remove bread_* columns
+df <- df[ , !(names(df) %in% paste("breadnobutt", suffixes, sep="_"))]
+rm(columns, bread_vars, new_column, suffix)
+
+# 2. merge bread with butt:
+breadWithButt_vars <- c("NumberofsliceswithButt", "NumberbaguettewithButt", "NumberbapwithButt", "NumberbreadrollwithButt", "NumbercrackerwithButt", "NumberoatcakewithButt", "NumberOthbreadwithButt")
+# calculate breadWithButt_* variables
+for(suffix in suffixes) {
+  columns <- paste(breadWithButt_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("breadWithButt", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of breadWithButt
+df$breadnobutt_mean <- apply(df[, paste("breadWithButt", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+# Remove breadWithButt_* columns
+df <- df[ , !(names(df) %in% paste("breadWithButt", suffixes, sep="_"))]
+rm(columns, breadWithButt_vars, new_column, suffix)
+
+# 3. merge all bread:
+breadall_vars <- c("SlicedBread", "Baguette", "Bap", "Breadroll", "Naanbread", "Garlicbread", "Crispbread", "Oatcakes", "Otherbread", "NumberofsliceswithButt", "NumberbaguettewithButt", "NumberbapwithButt", "NumberbreadrollwithButt", "NumbercrackerwithButt", "NumberoatcakewithButt", "NumberOthbreadwithButt")
+# calculate breadall_* variables
+for(suffix in suffixes) {
+  columns <- paste(breadall_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("breadall", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of breadall
+df$breadnobutt_mean <- apply(df[, paste("breadall", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+# Remove breadall_* columns
+df <- df[ , !(names(df) %in% paste("breadall", suffixes, sep="_"))]
+rm(columns, breadall_vars, new_column, suffix)
+
+# 4. merge pie:
+pie_vars <- c("DoubleCrustPastry", "SingleCrustPastry", "Crumble", "Pizza", "Pancake", "ScotchPancake", "YorkshirePudd", "IndiaSnack", "Croissant", "DanishPastry", "Scone")
+# calculate pie_* variables
+for(suffix in suffixes) {
+  columns <- paste(pie_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("pie", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of pie
+df$breadnobutt_mean <- apply(df[, paste("pie", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+
+# Remove pie_* columns
+df <- df[ , !(names(df) %in% paste("pie", suffixes, sep="_"))]
+rm(columns, pie_vars, new_column, suffix)
+
+# 5. merge dessert:
+dessert_vars <- c("Yogurt", "Icecream", "MilkPuddin", "OthMilkPuddin", "Soya", "Fruitcake", "Cake", "Doughnut", "Spongepuddin", "Cheesecake", "Othdessert")
+# calculate dessert_* variables
+for(suffix in suffixes) {
+  columns <- paste(dessert_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("dessert", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of dessert
+df$breadnobutt_mean <- apply(df[, paste("dessert", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+
+# Remove dessert_* columns
+df <- df[ , !(names(df) %in% paste("dessert", suffixes, sep="_"))]
+rm(columns, dessert_vars, new_column, suffix)
+
+# 6. merge sweet:
+sweet_vars <- c("Chocolatebar", "WhiteChocolate", "MilkChocolate", "DarkChocolate", "ChocolateRaisin", "Chocolatesweet", "Dietsweet", "Sweets", "ChocolateCoverBiscuit", "ChocolateBiscuit", "SweetBiscuit", "CerealBar", "OthSweet")
+# calculate sweet_* variables
+for(suffix in suffixes) {
+  columns <- paste(sweet_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("sweet", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of sweet
+df$breadnobutt_mean <- apply(df[, paste("sweet", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+
+# Remove sweet_* columns
+df <- df[ , !(names(df) %in% paste("sweet", suffixes, sep="_"))]
+rm(columns, sweet_vars, new_column, suffix)
+
+# 7. merge savoury:
+savoury_vars <- c("SaltPeanut", "Peanut", "SaltNut", "Nut", "Seeds", "Crisp", "SavouryBiscuit", "CheesyBiscuit", "Olives", "OthSavoury")
+# calculate savoury_* variables
+for(suffix in suffixes) {
+  columns <- paste(savoury_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("savoury", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of savoury
+df$breadnobutt_mean <- apply(df[, paste("savoury", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+
+# Remove savoury_* columns
+df <- df[ , !(names(df) %in% paste("savoury", suffixes, sep="_"))]
+rm(columns, savoury_vars, new_column, suffix)
+
+# 8. merge soup:
+soup_vars <- c("InstantSoup", "CannnedSoup", "HomeSoup")
+# calculate soup_* variables
+for(suffix in suffixes) {
+  columns <- paste(soup_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("soup", suffix, sep="_") # creates a name for new column
+  df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of soup
+df$breadnobutt_mean <- apply(df[, paste("soup", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+
+# Remove soup_* columns
+df <- df[ , !(names(df) %in% paste("soup", suffixes, sep="_"))]
+rm(columns, soup_vars, new_column, suffix)
+
+# 9. merge starchy:
+starchy_vars <- c("WhitePasta", "WholemealPasta", "WhiteRice", "BrownRice", "Sushi", "Snackpot", "Couscous", "OthGrain")
+# calculate starchy_* variables
+for(suffix in suffixes) {
+  columns <- paste(starchy_vars, suffix, sep="_") # creates a vector of column names with current suffix
+  new_column <- paste("starchy", suffix, sep="_") # creates a name for new column
+ df[[new_column]] <- apply(df[, columns], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(sum(x, na.rm = TRUE))
+    }
+  })
+}
+
+# Calculate row mean of starchy
+df$breadnobutt_mean <- apply(df[, paste("starchy", suffixes, sep="_")], 1, function(x) {
+    if (all(is.na(x))) {
+      return(NA)
+    } else {
+      return(mean(x, na.rm = TRUE))
+    }
+  })
+
+# Remove starchy_* columns
+df <- df[ , !(names(df) %in% paste("starchy", suffixes, sep="_"))]
+rm(columns, starchy_vars, new_column, suffix)
+
+write.csv(df, "C:\\Users\\timothy\\OneDrive\\Documents\\ISU\\food_project\\data\\data_for_test\\food_grain_dessert.csv",na='',row.names=FALSE)
+rm(list=ls())
+```
+
+```{r}
+# remove all variables with _4.0, and the like
+
+
